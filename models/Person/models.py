@@ -55,3 +55,30 @@ class Student(models.Model):
 # BigIntegerField  长整型
 # BooleanField  布尔型  默认true
 # CharField 字符串类型   长度不够的时候  用 TextField.
+#  DateField == datetime.date  class DateField(auto_now=False, auto_now_add=False, **options)
+# DateTimeField  == datetime.datetime class DateTimeField(auto_now=False, auto_now_add=False, **options)
+# TimeField  class TimeField(auto_now=False, auto_now_add=False, **options)  ==   datetime.time
+#  auto_now 大多用于修改日期   在调用Model.save(). 后 会自动更新    。  auto_now_add  大多用于创建时间
+# auto_now 或 auto_now_add被设置为True后，这样做会导致字段成为editable=False和blank=True的状态。editable=False将导致字段不会被呈现在admin中，blank=Ture表示允许在表单中不输入值。
+# EmailField
+#  FileField  文件上传字段    upload_to  案例如下
+class MyModel(models.Model):
+	# file will be uploaded to MEDIA_ROOT/uploads
+	upload = models.FileField(upload_to='uploads/')  #记得设置 MEDIA_ROOT
+	# or...
+	# file will be saved to MEDIA_ROOT/uploads/2015/01/30
+	upload_t = models.FileField(upload_to='uploads/%Y/%m/%d/')
+#  upload_to  也可以自定义
+def user_directory_path(instance, filename):
+	# file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return 'user_{0}/{1}'.format(instance.user.id, filename)
+
+class MyModelss(models.Model):
+	upload = models.FileField(upload_to=user_directory_path)
+
+# IntegerField
+# GenericIPAddressField
+# SlugField
+
+
+# 关联关系字段
